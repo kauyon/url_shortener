@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    container_name: url_shortener
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+    depends_on:
+      - db
+
+    environment:
+      - DB_URL=postgresql+asyncpg://postgres:1234@db:5432/url_shortener
+
+    ports:
+      - 8000:8000
+
+    volumes:
+      - .:/app
+
+  db:
+    image: postgres:15-alpine
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+    expose:
+      - 5432
+
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=url_shortener
+
+volumes:
+  postgres_data:
