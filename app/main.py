@@ -29,7 +29,7 @@ async def shorten_url(url: str, session: AsyncSession = Depends(get_session)):
     if not validators.url(url):
         raise HTTPException(status_code=400, detail='Invalid URL provided')
 
-    def generate_short_url(): return ''.join(secrets.choice(string.ascii_letters + string.digits)
+    def generate_short_url(): return 'const.com/' + ''.join(secrets.choice(string.ascii_letters + string.digits)
                                              for _ in range(10))  # 10 is arbitrary
     short_url = generate_short_url()
 
